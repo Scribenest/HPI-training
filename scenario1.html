@@ -142,21 +142,34 @@
         `;
       }
 
-      function highlightHPI(text) {
-        const hpiElements = [
-          "chest pain", "abdominal pain", "mid-sternal", "heaviness", "today", "35 minutes ago", "gardening",
-          "nausea", "SOB", "diaphoresis", "dizziness", "vomiting", "fatigue", "palpitations",
-          "BP of 92/58", "86% on RA", "6L of NC", "91%", "SPO2", "to 91% in SPO2",
-          "diabetes", "Metformin", "HTN", "Losartan",
-          "smoking", "MI",
-          "via EMS", "a liter of fluids", "325 mg of Aspirin"
-        ];
-        hpiElements.forEach(word => {
-          const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
-          text = text.replace(regex, match => `<span class="highlight">${match}</span>`);
-        });
-        return text;
-      }
+function highlightHPI(text) {
+  let hpiElements = [
+    "SPO2 to 91%",
+    "chest pain", "abdominal pain", "mid-sternal", "heaviness", "today", "35 minutes ago", "gardening",
+    "nausea", "SOB", "diaphoresis", "dizziness", "vomiting", "fatigue", "palpitations",
+    "BP of 92/58", "86% on RA", "6L of NC", "91%", "SPO2", "to 91% in SPO2",
+    "diabetes", "Metformin", "HTN", "Losartan",
+    "smoking", "MI",
+    "via EMS", "a liter of fluids", "325 mg of Aspirin"
+  ];
+
+  // Sort by length to match longer phrases first
+  hpiElements.sort((a, b) => b.length - a.length);
+
+  hpiElements.forEach(term => {
+    const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const isSingleWord = /^\w+$/.test(term); // only letters/numbers (no spaces or symbols)
+    
+    const regex = isSingleWord
+      ? new RegExp(`\\b${escaped}\\b`, 'g')  // whole word, case-sensitive
+      : new RegExp(escaped, 'g');            // match phrase exactly, including punctuation
+
+    text = text.replace(regex, match => `<span class="highlight">${match}</span>`);
+  });
+
+  return text;
+}
+
     }
   </script>
 </body>
