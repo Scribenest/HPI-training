@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ScribeNest HPI Scenario Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2c3e50;
+      margin-top: 2rem;
+    }
+    ul {
+      line-height: 1.6;
+    }
+    .scenario-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .scenario-list a {
+      display: block;
+      padding: 0.8rem 1.2rem;
+      background-color: #1c2e40;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    .scenario-list a:hover {
+      background-color: #16222f;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ScribeNest HPI Training Dashboard</h1>
+    <p>Interactive Scenario Practice for New Scribes</p>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h2>Welcome</h2>
+      <p>This website is designed to help new scribes practice writing complete and clinically accurate History of Present Illness (HPI) sections. Use the scenarios below to simulate patient encounters, listen to audio, and write an HPI using a provided template. After each submission, you can compare your HPI to a model version with highlights of pertinent information.</p>
+    </div>
+
+    <div class="section">
+      <h2>How to Use This Website</h2>
+      <ul>
+        <li>Select one of the six scenarios below to begin.</li>
+        <li>Click the <strong>Start Audio</strong> button to listen to the scenario — you will not be able to pause.</li>
+        <li>Use the template provided to write your HPI.</li>
+        <li>Use the <strong>F2</strong> key to quickly navigate to each asterisk placeholder.</li>
+        <li>Submit your HPI and compare it to the original version with key details highlighted.</li>
+        <li>You may retry scenarios as many times as needed.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>Scenario List</h2>
+      <div class="scenario-list">
+        <a href="scenario1.html">Scenario 1: Cardiac Arrest</a>
+        <a href="scenario2.html">Scenario 2: Atypical Chest Pain</a>
+        <a href="scenario3.html">Scenario 3: Stroke</a>
+        <a href="scenario4.html">Scenario 4: Trauma</a>
+        <a href="scenario5.html">Scenario 5: CPR</a>
+        <a href="scenario6.html">Scenario 6: Abdominal Pain</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>HPI Writing Guide</h2>
+      <p>Please refer to the detailed HPI examples available in the <strong>ScribeNest Documentation Training</strong> on Paycom. Below is a summary of the elements that make up a strong HPI:</p>
+      <h3>Essential Elements:</h3>
+      <ul>
+        <li><strong>Chronology</strong>: When did symptoms start? Was the onset sudden or gradual?</li>
+        <li><strong>Location</strong>: Where is the pain or complaint?</li>
+        <li><strong>Quality</strong>: Describe the pain (e.g., dull, sharp, cramping).</li>
+        <li><strong>Timing</strong>: Is it constant or intermittent?</li>
+        <li><strong>Severity</strong>: Mild, moderate, severe? Pain scale 0–10?</li>
+        <li><strong>Modifying Factors</strong>: What improves or worsens the symptoms?</li>
+        <li><strong>Associated Symptoms</strong>: What other symptoms are present or denied (e.g., nausea, cough)?</li>
+      </ul>
+
+      <h3>Recommended HPI Structure:</h3>
+      <ul>
+        <li>Start with the <strong>patient’s name, age, and sex</strong> (auto-filled in the template).</li>
+        <li>Include relevant <strong>past medical history</strong> (PMHx) and surgical history (PSHx).</li>
+        <li>State the <strong>arrival mode</strong> (e.g., EMS, private vehicle) and <strong>accompanying individuals</strong> (e.g., family, EMS).</li>
+        <li>Provide a clear description of the <strong>chief complaint</strong> with timing, location, quality, and severity.</li>
+        <li>Add <strong>associated symptoms</strong> that are either endorsed or denied.</li>
+        <li>Include <strong>any additional relevant info</strong> shared by the patient, EMS, or others.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

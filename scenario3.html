@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scenario 3: Stroke</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    textarea {
+      width: 90%;
+      height: 180px;
+      font-size: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.5;
+    }
+    .button-group {
+      margin: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+    button {
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .timer {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+    .results {
+      margin-top: 2rem;
+      text-align: left;
+    }
+    .highlight {
+      color: red;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+    .comparison {
+      margin-top: 2rem;
+      background-color: #fafafa;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .comparison h3 {
+      margin-top: 1.5rem;
+    }
+    .instructions {
+      text-align: left;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eef;
+      border-radius: 6px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Scenario 3: Stroke</h1>
+  </header>
+  <div class="container">
+    <div class="instructions">
+      <h3>Instructions</h3>
+      <ul>
+        <li><strong>Listen</strong> to the audio scenario provided.</li>
+        <li><strong>Write a complete HPI</strong> in the text box using clinical language and full sentences.</li>
+        <li>Your goal is to <strong>gather all pertinent information</strong> and <strong>ensure grammatical accuracy</strong>.</li>
+        <li>You will have a total of <strong>2 minutes and 48 seconds</strong> to complete your HPI.</li>
+        <li>You <strong>will not be able to pause the audio</strong> once it starts — it will play through continuously.</li>
+        <li>You <strong>can retry the scenario multiple times</strong> for practice by clicking <strong>"Start Audio"</strong> again after submitting.</li>
+        <li>After you submit, you will see a side-by-side comparison of your HPI vs. the original HPI, with <span style="color:red;"><strong>key elements highlighted</strong></span>.</li>
+        <li><strong>You can review HPI structure and examples in your Paycom modules.</strong></li>
+      </ul>
+    </div>
+
+    <div class="timer" id="timer">Time Remaining: 2:48</div>
+    <div class="button-group">
+      <button id="startBtn">Start Audio</button>
+      <button id="submitBtn">Submit</button>
+    </div>
+
+    <audio id="audio" preload="auto" src="https://www.dropbox.com/scl/fi/1w9ok0kz1emh0ryridtx6/New_Project-1.mp3?rlkey=qjqcioqwav6az3f0elid86ish&raw=1"></audio>
+
+    <textarea id="hpiBox"></textarea>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const audio = document.getElementById("audio");
+      const hpiBox = document.getElementById("hpiBox");
+      const timerDisplay = document.getElementById("timer");
+      const startBtn = document.getElementById("startBtn");
+      const submitBtn = document.getElementById("submitBtn");
+
+      let timerInterval;
+      let timeLeft = 168;
+
+      startBtn.addEventListener("click", function () {
+        clearInterval(timerInterval);
+        timeLeft = 168;
+        timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
+        hpiBox.value = "Evelyn Martinez is a 68 year old female who presents to the ED complaining of ***. Associated symptoms of ***. Patient reports ***. Patient denies ***, or any other symptoms at this time.";
+        hpiBox.disabled = false;
+        document.getElementById("results").innerHTML = "";
+        audio.currentTime = 0;
+        audio.play();
+        focusInitialAsterisk();
+
+        timerInterval = setInterval(() => {
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            hpiBox.disabled = true;
+            submitHPI();
+            return;
+          }
+          timeLeft--;
+          timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
+        }, 1000);
+      });
+
+      submitBtn.addEventListener("click", function () {
+        clearInterval(timerInterval);
+        audio.pause();
+        audio.currentTime = 0;
+        hpiBox.disabled = true;
+        submitHPI();
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === "F2") {
+          e.preventDefault();
+          focusNextAsterisk();
+        }
+      });
+
+      function formatTime(seconds) {
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${min}:${sec.toString().padStart(2, '0')}`;
+      }
+
+      function focusInitialAsterisk() {
+        const marker = "complaining of ";
+        const index = hpiBox.value.indexOf(marker);
+        if (index !== -1) {
+          const start = hpiBox.value.indexOf("***", index);
+          if (start !== -1) {
+            hpiBox.focus();
+            hpiBox.setSelectionRange(start, start + 3);
+          }
+        }
+      }
+
+      function focusNextAsterisk() {
+        const text = hpiBox.value;
+        let pos = hpiBox.selectionStart;
+        let next = text.indexOf("***", pos + 1);
+        if (next === -1) {
+          next = text.indexOf("***");
+        }
+        if (next !== -1) {
+          hpiBox.focus();
+          hpiBox.setSelectionRange(next, next + 3);
+        }
+      }
+
+      function submitHPI() {
+        const traineeText = hpiBox.value;
+        const originalText = `Evelyn Martinez is a 68 year old female with hx of HTN (on Amlodipine), Afib (on Xarelto), and stroke that occurred 2 years ago with no known deficits who presents to the ED via EMS complaining of sudden onset slurred speech that started today, 20 minutes ago, while cooking dinner. Her last known normal is 11:00 am this morning. Associated sx of right sided weakness and right sided facial droop. Pt reports of smoking 4 packs of cigarettes daily. Son notes that pt had a fall 2 weeks ago with head strike and was evaluated in the ED at the time where she had unremarkable results. Per EMS, pt had a BP of 180/95, HR of 88, SPO2 at 92% on RA, and D-stick of 110. They further note pt’s speech slightly improved en-route, but has not resolved. Pt denies nausea, vomiting, headache, or any other sx at this time.`;
+
+        const highlightedOriginal = highlightHPI(originalText);
+        const highlightedTrainee = highlightHPI(traineeText);
+
+        document.getElementById("results").innerHTML = `
+          <div class="comparison">
+            <h3>Original HPI:</h3>
+            <div>${highlightedOriginal}</div>
+            <h3>Your Submission:</h3>
+            <div>${highlightedTrainee}</div>
+          </div>
+        `;
+      }
+
+      function highlightHPI(text) {
+        const hpiElements = [
+          "slurred speech", "right sided weakness", "right sided facial droop", "HTN", "Amlodipine", "Afib", "Xarelto", "stroke", "2 years ago",
+          "cooking dinner", "11:00 am", "today", "20 minutes ago", "smoking", "4 packs", "fall", "head strike", "evaluated",
+          "unremarkable results", "BP of 180/95", "HR of 88", "SPO2 at 92%", "D-stick of 110", "speech improved", "nausea", "vomiting", "headache"
+        ];
+        hpiElements.forEach(word => {
+          const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          const regex = new RegExp(escaped, 'gi');
+          text = text.replace(regex, match => '<span class="highlight">' + match + '</span>');
+        });
+        return text;
+      }
+    }
+  </script>
+</body>
+</html>

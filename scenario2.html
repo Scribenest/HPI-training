@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scenario 2: Atypical Chest Pain</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    textarea {
+      width: 90%;
+      height: 180px;
+      font-size: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-top: 1rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.5;
+    }
+
+    .button-group {
+      margin: 1rem;
+      display: flex;
+      gap: 1rem;
+    }
+
+    button {
+      padding: 0.7rem 1.2rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .timer {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .results {
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .highlight {
+      color: red;
+      font-weight: bold;
+      text-decoration: underline;
+    }
+
+    .comparison {
+      margin-top: 2rem;
+      background-color: #fafafa;
+      padding: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .comparison h3 {
+      margin-top: 1.5rem;
+    }
+
+    .instructions {
+      text-align: left;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #eef;
+      border-radius: 6px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Scenario 2: Atypical Chest Pain</h1>
+  </header>
+  <div class="container">
+    <div class="instructions">
+      <h3>Instructions</h3>
+      <ul>
+        <li><strong>Listen</strong> to the audio scenario provided.</li>
+        <li><strong>Write a complete HPI</strong> in the text box using clinical language and full sentences.</li>
+        <li>Your goal is to <strong>gather all pertinent information</strong> and <strong>ensure grammatical accuracy</strong>.</li>
+        <li>You will have a total of <strong>2 minutes and 35 seconds</strong> to complete your HPI.</li>
+        <li>You <strong>will not be able to pause the audio</strong> once it starts — it will play through continuously.</li>
+        <li>You <strong>can retry the scenario multiple times</strong> for practice by clicking <strong>"Start Audio"</strong> again after submitting.</li>
+        <li>After you submit, you will see a side-by-side comparison of your HPI vs. the original HPI, with <span style="color:red;"><strong>key elements highlighted</strong></span>.</li>
+        <li><strong>You can review HPI structure and examples in your Paycom modules.</strong></li>
+      </ul>
+    </div>
+
+    <div class="timer" id="timer">Time Remaining: 2:35</div>
+    <div class="button-group">
+      <button id="startBtn">Start Audio</button>
+      <button id="submitBtn">Submit</button>
+    </div>
+
+   <audio id="audio" preload="auto" src="https://www.dropbox.com/scl/fi/4lnh1m4w9xczgfkh9kcne/New_Project.mp3?rlkey=4rv2f1nnjxqj1nheiff2ov5q0&raw=1"></audio>
+
+    <textarea id="hpiBox"></textarea>
+
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const audio = document.getElementById("audio");
+      const hpiBox = document.getElementById("hpiBox");
+      const timerDisplay = document.getElementById("timer");
+      const startBtn = document.getElementById("startBtn");
+      const submitBtn = document.getElementById("submitBtn");
+
+      let timerInterval;
+      let timeLeft = 155;
+
+      startBtn.addEventListener("click", function () {
+  clearInterval(timerInterval);
+  timeLeft = 163;
+  timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
+  hpiBox.value = "John Doe is a 35 year old male who presents to the ED complaining of ***. Associated symptoms of ***. Patient reports ***. Patient denies ***, or any other symptoms at this time.";
+  hpiBox.disabled = false;
+  document.getElementById("results").innerHTML = "";
+  audio.currentTime = 0;
+  audio.play();
+  focusInitialAsterisk();
+
+  timerInterval = setInterval(() => {
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      hpiBox.disabled = true;
+      submitHPI();
+      return;
+    }
+    timeLeft--;
+    timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
+  }, 1000);
+});
+
+submitBtn.addEventListener("click", function () {
+  clearInterval(timerInterval);
+  audio.pause();
+  audio.currentTime = 0;
+  hpiBox.disabled = true;
+  submitHPI();
+});
+
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === "F2") {
+          e.preventDefault();
+          focusNextAsterisk();
+        }
+      });
+
+      function formatTime(seconds) {
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+        return `${min}:${sec.toString().padStart(2, '0')}`;
+      }
+
+      function focusInitialAsterisk() {
+        const marker = "complaining of ";
+        const index = hpiBox.value.indexOf(marker);
+        if (index !== -1) {
+          const start = hpiBox.value.indexOf("***", index);
+          if (start !== -1) {
+            hpiBox.focus();
+            hpiBox.setSelectionRange(start, start + 3);
+          }
+        }
+      }
+
+      function focusNextAsterisk() {
+        const text = hpiBox.value;
+        let pos = hpiBox.selectionStart;
+        let next = text.indexOf("***", pos + 1);
+        if (next === -1) {
+          next = text.indexOf("***");
+        }
+        if (next !== -1) {
+          hpiBox.focus();
+          hpiBox.setSelectionRange(next, next + 3);
+        }
+      }
+
+      function submitHPI() {
+        const traineeText = hpiBox.value;
+        const originalText = `John Doe is a 35 year old male with no reported PMHx who presents to the ED complaining of sudden onset dull and achy mid-sternal chest pain that started today, about 3 hours ago, during a meeting at work. Pt describes his pain as intermittent in frequency with each episode lasting about 10-15 minutes. Associated sx of some radiating pain to the left shoulder. Pt rates the pain 4/10 and states similar episodes for the past few weeks after eating or when he is stressed. Pt further states his pain is unchanged with exertion or after taking a Tums an hour PTA. He reports recent stressors with his new promotion at work. He denies smoking or recreational drug use, but drinks socially. Denies recent injuries, trauma, or long travels. Pt denies SOB, nausea, cough, fever, diaphoresis, palpitations, leg swelling, or any other sx at this time.`;
+
+        const highlightedOriginal = highlightHPI(originalText);
+        const highlightedTrainee = highlightHPI(traineeText);
+
+        document.getElementById("results").innerHTML = `
+          <div class="comparison">
+            <h3>Original HPI:</h3>
+            <div>${highlightedOriginal}</div>
+            <h3>Your Submission:</h3>
+            <div>${highlightedTrainee}</div>
+          </div>
+        `;
+      }
+
+      function highlightHPI(text) {
+        const hpiElements = [
+          "chest pain", "mid-sternal", "dull", "achy", "today", "3 hours ago", "meeting", "intermittent", "10-15 minutes", "left shoulder",
+          "4/10", "past few weeks", "after eating", "when he is stressed", "unchanged with exertion", "after taking a Tums", "recent stressors",
+          "promotion", "smoking", "recreational drug use", "drinks socially", "injuries", "trauma", "long travels",
+          "SOB", "nausea", "cough", "fever", "diaphoresis", "palpitations", "leg swelling"
+        ];
+        hpiElements.forEach(word => {
+          const escaped = word.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&');
+          const regex = new RegExp(escaped, 'gi');
+          text = text.replace(regex, match => '<span class="highlight">' + match + '</span>');
+        });
+        return text;
+      }
+    }
+  </script>
+</body>
+</html>
