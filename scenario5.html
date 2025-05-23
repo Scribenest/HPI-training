@@ -145,7 +145,7 @@
       function highlightHPI(text) {
         const hpiElements = [
           "CPR in progress", "unresponsive", "unknown down time", "CPR for about 15 minutes", "continued CPR for another 30 minutes",
-          "2 rounds of epi", "one shock", "Vfib", "HPI and ROS are limited", "patient’s unresponsiveness"
+          "2 rounds of epi", "one shock", "Vfib", "HPI and ROS are limited", "patient’s unresponsiveness", "via EMS"
         ];
         hpiElements.forEach(word => {
           const regex = new RegExp(word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
