@@ -114,7 +114,7 @@
         <li><strong>Listen</strong> to the audio scenario provided.</li>
         <li><strong>Write a complete HPI</strong> in the text box using clinical language and full sentences.</li>
         <li>Your goal is to <strong>gather all pertinent information</strong> and <strong>ensure grammatical accuracy</strong>.</li>
-        <li>You will have a total of <strong>2 minutes and 35 seconds</strong> to complete your HPI.</li>
+        <li>You will have a total of <strong>3 minutes and 30 seconds</strong> to complete your HPI.</li>
         <li>You <strong>will not be able to pause the audio</strong> once it starts — it will play through continuously.</li>
         <li>You <strong>can retry the scenario multiple times</strong> for practice by clicking <strong>"Start Audio"</strong> again after submitting.</li>
         <li>After you submit, you will see a side-by-side comparison of your HPI vs. the original HPI, with <span style="color:red;"><strong>key elements highlighted</strong></span>.</li>
@@ -122,7 +122,7 @@
       </ul>
     </div>
 
-    <div class="timer" id="timer">Time Remaining: 2:35</div>
+    <div class="timer" id="timer">Time Remaining: 3:10</div>
     <div class="button-group">
       <button id="startBtn">Start Audio</button>
       <button id="submitBtn">Submit</button>
@@ -144,11 +144,11 @@
       const submitBtn = document.getElementById("submitBtn");
 
       let timerInterval;
-      let timeLeft = 155;
+      let timeLeft = 190;
 
       startBtn.addEventListener("click", function () {
   clearInterval(timerInterval);
-  timeLeft = 163;
+  timeLeft = 210;
   timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
   hpiBox.value = "John Doe is a 35 year old male who presents to the ED complaining of ***. Associated symptoms of ***. Patient reports ***. Patient denies ***, or any other symptoms at this time.";
   hpiBox.disabled = false;
