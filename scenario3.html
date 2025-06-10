@@ -102,7 +102,7 @@
         <li><strong>Listen</strong> to the audio scenario provided.</li>
         <li><strong>Write a complete HPI</strong> in the text box using clinical language and full sentences.</li>
         <li>Your goal is to <strong>gather all pertinent information</strong> and <strong>ensure grammatical accuracy</strong>.</li>
-        <li>You will have a total of <strong>2 minutes and 48 seconds</strong> to complete your HPI.</li>
+        <li>You will have a total of <strong>2 minutes and 12 seconds</strong> to complete your HPI.</li>
         <li>You <strong>will not be able to pause the audio</strong> once it starts — it will play through continuously.</li>
         <li>You <strong>can retry the scenario multiple times</strong> for practice by clicking <strong>"Start Audio"</strong> again after submitting.</li>
         <li>After you submit, you will see a side-by-side comparison of your HPI vs. the original HPI, with <span style="color:red;"><strong>key elements highlighted</strong></span>.</li>
@@ -116,7 +116,7 @@
       <button id="submitBtn">Submit</button>
     </div>
 
-    <audio id="audio" preload="auto" src="https://www.dl.dropboxusercontent.com/scl/fi/1w9ok0kz1emh0ryridtx6/New_Project-1.mp3?rlkey=qjqcioqwav6az3f0elid86ish&raw=1"></audio>
+    <audio id="audio" preload="auto" src="https://www.dl.dropboxusercontent.com/scl/fi/7syycd0ybu7piqyhohori/stroke.mp3?rlkey=28w3h6hmqv480lgdzl82mbvjy&st=h833zojx&dl=0"></audio>
 
     <textarea id="hpiBox"></textarea>
 
@@ -132,11 +132,11 @@
       const submitBtn = document.getElementById("submitBtn");
 
       let timerInterval;
-      let timeLeft = 168;
+      let timeLeft = 132;
 
       startBtn.addEventListener("click", function () {
         clearInterval(timerInterval);
-        timeLeft = 168;
+        timeLeft = 132;
         timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
         hpiBox.value = "Evelyn Martinez is a 68 year old female who presents to the ED complaining of ***. Associated symptoms of ***. Patient reports ***. Patient denies ***, or any other symptoms at this time.";
         hpiBox.disabled = false;
