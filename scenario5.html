@@ -29,7 +29,7 @@ s<!DOCTYPE html>
         <li><strong>Listen</strong> to the audio scenario provided.</li>
         <li><strong>Write a complete HPI</strong> using clinical language and full sentences.</li>
         <li>Your goal is to <strong>gather all pertinent information</strong> and <strong>ensure grammatical accuracy</strong>.</li>
-        <li>You have <strong>2 minutes and 52 seconds</strong> to complete your HPI.</li>
+        <li>You have <strong>1 minute and 17 seconds</strong> to complete your HPI.</li>
         <li>You <strong>will not be able to pause</strong> the audio once started.</li>
         <li>You <strong>can retry</strong> the scenario by clicking <strong>Start Audio</strong> again after submitting.</li>
         <li>After submission, you'll see your HPI next to the original with <span class="highlight">key elements highlighted</span>.</li>
@@ -37,13 +37,13 @@ s<!DOCTYPE html>
       </ul>
     </div>
 
-    <div class="timer" id="timer">Time Remaining: 2:52</div>
+    <div class="timer" id="timer">Time Remaining: 1:17</div>
     <div class="button-group">
       <button id="startBtn">Start Audio</button>
       <button id="submitBtn">Submit</button>
     </div>
 
-    <audio id="audio" preload="auto" src="https://www.dl.dropboxusercontent.com/scl/fi/4lnh1m4w9xczgfkh9kcne/New_Project.mp3?rlkey=4rv2f1nnjxqj1nheiff2ov5q0&raw=1"></audio>
+    <audio id="audio" preload="auto" src="https://www.dl.dropboxusercontent.com/scl/fi/hlltvsx8ir0nekh2mmx5w/cpr.mp3?rlkey=2t3k0b1ab9afn6jith4z3o8kx&st=ut91b4o3&dl=0"></audio>
 
     <textarea id="hpiBox"></textarea>
 
@@ -59,11 +59,11 @@ s<!DOCTYPE html>
       const submitBtn = document.getElementById("submitBtn");
 
       let timerInterval;
-      let timeLeft = 172;
+      let timeLeft = 77;
 
       startBtn.addEventListener("click", function () {
         clearInterval(timerInterval);
-        timeLeft = 172;
+        timeLeft = 77;
         timerDisplay.innerText = "Time Remaining: " + formatTime(timeLeft);
         hpiBox.value = "Linda Harper is a 50 year old female who presents to the ED complaining of ***. Associated symptoms of ***. Patient reports ***. Patient denies ***, or any other symptoms at this time.";
         hpiBox.disabled = false;
